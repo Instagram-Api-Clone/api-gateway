@@ -52,9 +52,9 @@ tasks.named('test') {
 
 jib {
 	to {
-		image = "docker.io/hemantvashist/instagram_app-${project.name}"
+		image = "docker.io/hemantvashist/instagram_app-${project.name}-v2"
 		tags = [project.version.toString(), 'latest']
 	}
 }
 
-tasks.build.dependsOn tasks.jibDockerBuild
+tasks.build.dependsOn tasks.jib

@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
+
+jwt:
+  secret:
+    key: dummy-jwt-secret-key-that-is-at-least-32-bytes-long-for-tests
