@@ -38,6 +38,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.5'
 }
 
 dependencyManagement {
@@ -52,9 +53,16 @@ tasks.named('test') {
 
 jib {
 	to {
-		image = "docker.io/hemantvashist/instagram_app-${project.name}-v2"
+		image = "docker.io/hemantvashist/instagram_app-${project.name}-v21"
 		tags = [project.version.toString(), 'latest']
 	}
+	container {
+		// Use current time so every build produces a unique layer digest,
+		// preventing Jib from silently reusing a cached layer on Docker Hub
+		// when only static resources (e.g. reference.html) have changed.
+		creationTime = 'USE_CURRENT_TIMESTAMP'
+	}
 }
+
 
 tasks.build.dependsOn tasks.jib

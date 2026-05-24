@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Instagram Developer Portal</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/instagram-new.png" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --theme-bg: #090d16;
+        --theme-header-bg: #0d1321;
+        --theme-card-bg: rgba(13, 19, 33, 0.45);
+        --theme-border: #1e293b;
+        --theme-text: #f8fafc;
+        --theme-text-muted: #94a3b8;
+        --theme-accent: #e1306c;
+        --theme-accent-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        --scalar-custom-header-height: 64px;
+      }
+      
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background-color: var(--theme-bg);
+        color: var(--theme-text);
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--theme-header-bg);
+        border-bottom: 1px solid var(--theme-border);
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        height: 64px;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+
+      .logo-section img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .logo-section h1 {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.5px;
+        background: var(--theme-accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-section .badge {
+        background: rgba(225, 48, 108, 0.15);
+        color: var(--theme-accent);
+        border: 1px solid rgba(225, 48, 108, 0.3);
+        padding: 2px 8px;
+        border-radius: 9999px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .selector-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .selector-section label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--theme-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-dashboard {
+        background: rgba(248, 250, 252, 0.05);
+        color: var(--theme-text);
+        border: 1px solid var(--theme-border);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+      }
+
+      .btn-dashboard:hover {
+        background: rgba(248, 250, 252, 0.1);
+        border-color: #475569;
+      }
+
+      .token-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--theme-border);
+        border-radius: 8px;
+        padding: 4px 12px;
+        height: 38px;
+      }
+
+      .token-section input {
+        background: transparent;
+        border: none;
+        color: var(--theme-text);
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        width: 180px;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .token-section input:focus {
+        width: 320px;
+      }
+
+      .btn-clear-token {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-clear-token:hover {
+        background: rgba(239, 68, 68, 0.22);
+        border-color: #ef4444;
+      }
+
+      select {
+        background-color: var(--theme-bg);
+        color: var(--theme-text);
+        border: 1px solid var(--theme-border);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        min-width: 240px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      select:hover {
+        border-color: #475569;
+        background-color: #0f172a;
+      }
+
+      select:focus {
+        border-color: var(--theme-accent);
+        box-shadow: 0 0 0 2px rgba(225, 48, 108, 0.25);
+        background-color: #0f172a;
+      }
+
+      #scalar-container {
+        margin-top: 64px;
+        background-color: var(--theme-bg);
+        height: calc(100vh - 64px);
+        overflow-y: auto;
+      }
+
+      #app {
+        width: 100%;
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+      }
+
+      #app-fallback {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 16px;
+        color: var(--theme-text-muted);
+        font-size: 15px;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(225, 48, 108, 0.1);
+        border-radius: 50%;
+        border-top-color: var(--theme-accent);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* Dashboard Styles */
+      .dashboard-wrapper {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 48px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .dashboard-hero {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .dashboard-hero h2 {
+        font-size: 36px;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -1px;
+        background: var(--theme-accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .dashboard-hero p {
+        font-size: 16px;
+        color: var(--theme-text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .search-box-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 640px;
+        margin-top: 16px;
+      }
+
+      .search-box-wrapper input {
+        width: 100%;
+        background-color: var(--theme-header-bg);
+        border: 1px solid var(--theme-border);
+        color: var(--theme-text);
+        padding: 16px 20px 16px 52px;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+      }
+
+      .search-box-wrapper input:focus {
+        border-color: var(--theme-accent);
+        box-shadow: 0 0 0 3px rgba(225, 48, 108, 0.25), 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+      }
+
+      .search-box-wrapper .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      .catalog-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .stat-card {
+        background: var(--theme-card-bg);
+        border: 1px solid var(--theme-border);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .stat-num {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--theme-text);
+      }
+
+      .stat-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--theme-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 24px;
+        margin-top: 12px;
+      }
+
+      .service-card {
+        background: var(--theme-card-bg);
+        border: 1px solid var(--theme-border);
+        border-radius: 16px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--accent-gradient, var(--theme-accent-gradient));
+        opacity: 0.8;
+      }
+
+      .service-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(225, 48, 108, 0.4);
+        box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(225, 48, 108, 0.1);
+      }
+
+      .service-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .service-card-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .service-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent-gradient);
+        color: white;
+      }
+
+      .service-card-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .status-badge.online {
+        background: rgba(16, 185, 129, 0.12);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+
+      .status-badge.offline {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+
+      .status-badge.checking {
+        background: rgba(245, 158, 11, 0.12);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: currentColor;
+      }
+
+      .service-card-body {
+        font-size: 14px;
+        color: var(--theme-text-muted);
+        line-height: 1.5;
+        margin: 0;
+        flex-grow: 1;
+      }
+
+      .service-info-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 13px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 16px;
+      }
+
+      .info-metric {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .info-val {
+        font-weight: 700;
+        color: var(--theme-text);
+      }
+
+      .info-lbl {
+        color: var(--theme-text-muted);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      .service-card-action {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--theme-border);
+        color: var(--theme-text);
+        padding: 12px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+      }
+
+      .service-card:hover .service-card-action {
+        background: var(--accent-gradient);
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 12px -2px rgba(225, 48, 108, 0.3);
+      }
+
+      /* Search Results styling inside cards */
+      .search-matches {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .search-matches-header {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--theme-accent);
+        letter-spacing: 0.5px;
+      }
+
+      .matching-endpoint {
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: background 0.15s ease;
+        font-family: monospace;
+      }
+
+      .matching-endpoint:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .method-badge {
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 6px;
+        border-radius: 4px;
+        min-width: 48px;
+        text-align: center;
+      }
+
+      .method-badge.get { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+      .method-badge.post { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+      .method-badge.put { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+      .method-badge.delete { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+      .method-badge.patch { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+
+      .endpoint-path {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #e2e8f0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo-section" onclick="showDashboard()">
+        <img src="https://img.icons8.com/color/48/instagram-new.png" alt="Instagram Logo" />
+        <h1>Instagram Developer Portal</h1>
+        <span class="badge">Scalar UI</span>
+      </div>
+      <div class="selector-section">
+        <div class="token-section">
+          <input type="text" id="header-token-input" placeholder="Set Access Token..." oninput="handleHeaderTokenInput(this.value)" />
+          <button class="btn-clear-token" onclick="clearToken()">Clear</button>
+        </div>
+        <button class="btn-dashboard" onclick="showDashboard()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          Catalog Dashboard
+        </button>
+        <select id="api-select" onchange="handleSelectChange(this.value)">
+          <option value="dashboard" selected>Dashboard / All Services</option>
+        </select>
+      </div>
+    </header>
+
+    <div id="scalar-container" class="dashboard-active">
+      <!-- Fallback Spinner -->
+      <div id="app-fallback" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 16px; color: var(--theme-text-muted); font-size: 15px;">
+        <div class="spinner"></div>
+        <span>Initializing API Gateway Aggregator...</span>
+      </div>
+
+      <!-- Dashboard Wrapper -->
+      <div id="dashboard" style="display: none; height: auto; min-height: 100%; overflow: visible;"></div>
+
+      <!-- Persistent Scalar App UI -->
+      <div id="app" style="display: none; height: 100%;"></div>
+    </div>
+
+    <!-- Scalar API Reference Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+
+    <!-- ============================================================
+         Manual Access Token Manager Script
+    ============================================================ -->
+    <script>
+      let tokenTimeout = null;
+      function handleHeaderTokenInput(val) {
+        const cleaned = val.trim();
+        localStorage.setItem('scalar_accessToken', cleaned);
+        
+        if (tokenTimeout) {
+          clearTimeout(tokenTimeout);
+        }
+        
+        // Debounce the expensive Scalar re-renders to prevent main thread lockups while typing
+        tokenTimeout = setTimeout(() => {
+          if (activeUrl !== "dashboard") {
+            if (specsCache[activeUrl]) {
+              specsCache[activeUrl]['x-scalar-environments']['default']['variables']['accessToken']['default'] = cleaned;
+            }
+            // Seamlessly re-render the Scalar UI with the updated variable value
+            switchService(activeUrl);
+          }
+        }, 600);
+      }
+
+      function clearToken() {
+        localStorage.removeItem('scalar_accessToken');
+        const tokenInput = document.getElementById('header-token-input');
+        if (tokenInput) {
+          tokenInput.value = '';
+        }
+        if (activeUrl !== "dashboard") {
+          if (specsCache[activeUrl]) {
+            specsCache[activeUrl]['x-scalar-environments']['default']['variables']['accessToken']['default'] = '';
+          }
+          switchService(activeUrl);
+        }
+      }
+
+      // Restore saved token into header input on load
+      window.addEventListener('DOMContentLoaded', () => {
+        const savedToken = localStorage.getItem('scalar_accessToken') || '';
+        const tokenInput = document.getElementById('header-token-input');
+        if (tokenInput) {
+          tokenInput.value = savedToken;
+        }
+      });
+    </script>
+
+    <script>
+      const servicesMetadata = [
+        {
+          name: "User Service",
+          url: "/aggregate/user-service/v3/api-docs",
+          desc: "Handles user authentication, secure JWT issuance, registration, profile retrieval, and accounts management.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`,
+          accentColor: "linear-gradient(135deg, #f09433 0%, #bc1888 100%)",
+          routes: ["/api/v1/auth/**", "/api/v1/users/**"]
+        },
+        {
+          name: "Post Service",
+          url: "/aggregate/post-service/v3/api-docs",
+          desc: "Manages publishing images, user posts, feed creation, comment processing, saves, and reaction likes.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`,
+          accentColor: "linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)",
+          routes: ["/api/v1/posts/**", "/api/v1/post-likes/**"]
+        },
+        {
+          name: "Follow Service",
+          url: "/aggregate/follow-service/v3/api-docs",
+          desc: "Maintains network graphs, user relationships, mutual follow connections, and social tracking grids.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>`,
+          accentColor: "linear-gradient(135deg, #8a23ab 0%, #e94057 100%)",
+          routes: ["/api/v1/follow/**"]
+        },
+        {
+          name: "Notification Service",
+          url: "/aggregate/notification-service/v3/api-docs",
+          desc: "Dispatches and logs real-time user notification events, alerts for likes, comments, and new followers.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`,
+          accentColor: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+          routes: ["/api/v1/notifications/**"]
+        },
+        {
+          name: "Chat Service",
+          url: "/aggregate/chat-service/v3/api-docs",
+          desc: "Supports real-time chat instances, message persistence, Kafka broadcast channels, and user inboxes.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+          accentColor: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)",
+          routes: ["/api/v1/chats/**", "/api/v1/chat-messages/**"]
+        },
+        {
+          name: "Media Service",
+          url: "/aggregate/media-service/v3/api-docs",
+          desc: "Powers raw asset storage uploads, file size checks, image compression, and cloud CDN transfers.",
+          icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`,
+          accentColor: "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
+          routes: ["/aggregate/media-service/v3/api-docs"]
+        }
+      ];
+
+      let activeUrl = "dashboard";
+      let specsCache = {};
+      let serviceStatuses = {};
+      let apiReferenceInstance = null;
+
+      function normalizeSpec(spec) {
+        if (!spec) return spec;
+        
+        // 1. Prefix all paths with /api/v1 if not present
+        if (spec.paths) {
+          const newPaths = {};
+          for (const path in spec.paths) {
+            const newPath = path.startsWith('/api/v1') ? path : `/api/v1${path}`;
+            newPaths[newPath] = spec.paths[path];
+          }
+          spec.paths = newPaths;
+        }
+        
+        // 2. Set server URL block to window.location.origin
+        spec.servers = [
+          {
+            url: window.location.origin,
+            description: "Google Kubernetes Engine Ingress / API Gateway"
+          }
+        ];
+
+        // 3. Reorder tags to put 'Auth' above 'User' in the sidebar
+        if (spec.tags) {
+          spec.tags.sort((a, b) => {
+            const nameA = (a.name || '').toLowerCase();
+            const nameB = (b.name || '').toLowerCase();
+            if (nameA === 'auth') return -1;
+            if (nameB === 'auth') return 1;
+            if (nameA === 'user') return 1;
+            if (nameB === 'user') return -1;
+            return nameA.localeCompare(nameB);
+          });
+        }
+
+        // 4. Inject Authorization Header parameter (with Bearer {{accessToken}}) for non-auth requests
+        // AND completely remove X-User-Id from parameters as it is unused.
+        if (spec.paths) {
+          for (const path in spec.paths) {
+            const methods = spec.paths[path];
+            for (const method in methods) {
+              const operation = methods[method];
+              if (!operation.parameters) {
+                operation.parameters = [];
+              }
+              
+              // Filter out X-User-Id header parameter if it exists
+              operation.parameters = operation.parameters.filter(p => (p.name || '').toLowerCase() !== 'x-user-id');
+
+              // Add Authorization header parameter ONLY for non-auth requests
+              if (!path.startsWith('/api/v1/auth/')) {
+                // Filter out any existing Authorization parameter to prevent duplicates
+                operation.parameters = operation.parameters.filter(p => (p.name || '').toLowerCase() !== 'authorization');
+                
+                // Append standard header parameter with pre-populated variable or local storage value
+                const savedToken = localStorage.getItem('scalar_accessToken');
+                const defaultAuthValue = savedToken ? `Bearer ${savedToken}` : 'Bearer {{accessToken}}';
+                operation.parameters.push({
+                  name: "Authorization",
+                  in: "header",
+                  required: true,
+                  schema: {
+                    type: "string",
+                    default: defaultAuthValue
+                  },
+                  description: "Bearer JWT Access Token"
+                });
+              }
+            }
+          }
+        }
+
+        // 5. Pre-define environment variables to initialize the client with 'accessToken' from localStorage
+        spec['x-scalar-environments'] = {
+          "default": {
+            "name": "Default Environment",
+            "color": "#e1306c",
+            "variables": {
+              "accessToken": {
+                "description": "JWT Access Token",
+                "default": localStorage.getItem('scalar_accessToken') || ""
+              }
+            }
+          }
+        };
+        spec['x-scalar-active-environment'] = "default";
+        
+        return spec;
+      }
+
+      async function initPortal() {
+        try {
+          // Initialize active status trackers
+          servicesMetadata.forEach(item => {
+            serviceStatuses[item.url] = {
+              status: "Checking",
+              endpointsCount: 0,
+              version: "Pending"
+            };
+          });
+
+          // Fetch the aggregated swagger/springdoc configuration
+          const response = await fetch('/v3/api-docs/swagger-config');
+          if (!response.ok) {
+            throw new Error('Failed to fetch api-docs configuration');
+          }
+          const config = await response.json();
+          
+          const selectEl = document.getElementById('api-select');
+          selectEl.innerHTML = '<option value="dashboard" selected>Dashboard / All Services</option>';
+          
+          if (config.urls && config.urls.length > 0) {
+            config.urls.forEach(item => {
+              const option = document.createElement('option');
+              option.value = item.url;
+              option.text = item.name;
+              selectEl.appendChild(option);
+            });
+          }
+
+          // Show Dashboard first
+          showDashboard();
+
+          // Asynchronously pre-fetch specifications in background to check online/offline and parse endpoint counts
+          preloadSpecs();
+        } catch (error) {
+          console.error('Error loading developer portal:', error);
+          document.getElementById('app-fallback').innerHTML = 
+            `<span style="color: #f87171; font-weight: 600; text-align: center;">
+              Failed to connect to the configuration aggregation server.<br>
+              <span style="font-size: 13px; font-weight: 400; color: #64748b; margin-top: 8px; display: inline-block;">
+                Please ensure api-gateway and configuration-server are running and healthy.
+              </span>
+            </span>`;
+        }
+      }
+
+      async function preloadSpecs() {
+        const promises = servicesMetadata.map(async (service) => {
+          try {
+            const res = await fetch(service.url + "?t=" + new Date().getTime());
+            if (!res.ok) throw new Error("Offline");
+            let spec = await res.json();
+            
+            // Normalize the spec immediately on load
+            spec = normalizeSpec(spec);
+            
+            // Extract endpoint count
+            let endpointsCount = 0;
+            if (spec.paths) {
+              Object.keys(spec.paths).forEach(pathKey => {
+                endpointsCount += Object.keys(spec.paths[pathKey]).length;
+              });
+            }
+
+            specsCache[service.url] = spec;
+            serviceStatuses[service.url] = {
+              status: "Online",
+              endpointsCount: endpointsCount,
+              version: spec.info ? spec.info.version : "v1.0"
+            };
+          } catch (e) {
+            console.warn(`Failed to reach ${service.name}:`, e);
+            serviceStatuses[service.url] = {
+              status: "Unavailable",
+              endpointsCount: 0,
+              version: "N/A"
+            };
+          }
+        });
+
+        await Promise.all(promises);
+
+        // Re-render dashboard or stats if dashboard is active
+        if (activeUrl === "dashboard") {
+          renderServiceCards();
+          updateDashboardStats();
+        }
+      }
+
+      function handleSelectChange(val) {
+        if (val === "dashboard") {
+          showDashboard();
+        } else {
+          switchService(val);
+        }
+      }
+
+      function showDashboard() {
+        activeUrl = "dashboard";
+        document.getElementById('api-select').value = "dashboard";
+        
+        const container = document.getElementById('scalar-container');
+        container.classList.add('dashboard-active');
+        
+        document.getElementById('app-fallback').style.display = 'none';
+        document.getElementById('app').style.display = 'none';
+        
+        const dashboardEl = document.getElementById('dashboard');
+        dashboardEl.style.display = 'block';
+        
+        // Render Dashboard HTML
+        dashboardEl.innerHTML = `
+          <div class="dashboard-wrapper">
+            <div class="dashboard-hero">
+              <h2>Instagram API Catalog</h2>
+              <p>Explore, search, and interact with the distributed REST APIs powering our backend microservices.</p>
+              
+              <div class="search-box-wrapper">
+                <input type="text" id="global-search" placeholder="Search endpoints, path, methods, or controllers (e.g. /posts, GET)..." oninput="handleGlobalSearch(this.value)">
+                <span class="search-icon">🔍</span>
+              </div>
+            </div>
+            
+            <div class="catalog-stats">
+              <div class="stat-card">
+                <span class="stat-num" id="stat-active-count">0 / 6</span>
+                <span class="stat-label">Services Available</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-num" id="stat-endpoint-count">0</span>
+                <span class="stat-label">Total Endpoints</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-num">v1.0.0</span>
+                <span class="stat-label">API Gateway Version</span>
+              </div>
+            </div>
+            
+            <div class="services-grid" id="services-grid">
+              <!-- Cards rendered dynamically -->
+            </div>
+          </div>
+        `;
+        
+        renderServiceCards();
+        updateDashboardStats();
+      }
+
+      function updateDashboardStats() {
+        let onlineCount = 0;
+        let totalEndpoints = 0;
+        
+        servicesMetadata.forEach(service => {
+          const stats = serviceStatuses[service.url];
+          if (stats && stats.status === "Online") {
+            onlineCount++;
+            totalEndpoints += stats.endpointsCount;
+          }
+        });
+
+        const activeCountEl = document.getElementById('stat-active-count');
+        const endpointCountEl = document.getElementById('stat-endpoint-count');
+        
+        if (activeCountEl) activeCountEl.innerText = `${onlineCount} / ${servicesMetadata.length}`;
+        if (endpointCountEl) endpointCountEl.innerText = totalEndpoints;
+      }
+
+      function renderServiceCards(searchQuery = "") {
+        const grid = document.getElementById('services-grid');
+        if (!grid) return;
+        
+        grid.innerHTML = "";
+        
+        servicesMetadata.forEach(service => {
+          const stats = serviceStatuses[service.url] || { status: "Checking", endpointsCount: 0, version: "Pending" };
+          const spec = specsCache[service.url];
+          
+          let matches = [];
+          let isMatch = true;
+
+          // Perform filtering if search query exists
+          if (searchQuery) {
+            const nameMatch = service.name.toLowerCase().includes(searchQuery);
+            const descMatch = service.desc.toLowerCase().includes(searchQuery);
+            
+            // Check endpoints inside specs
+            let endpointMatches = [];
+            if (spec && spec.paths) {
+              Object.keys(spec.paths).forEach(pathKey => {
+                Object.keys(spec.paths[pathKey]).forEach(method => {
+                  const methodStr = method.toUpperCase();
+                  const operation = spec.paths[pathKey][method];
+                  const controller = operation.tags ? operation.tags.join(', ') : '';
+                  
+                  if (
+                    pathKey.toLowerCase().includes(searchQuery) ||
+                    methodStr.toLowerCase().includes(searchQuery) ||
+                    controller.toLowerCase().includes(searchQuery)
+                  ) {
+                    endpointMatches.push({
+                      path: pathKey,
+                      method: methodStr
+                    });
+                  }
+                });
+              });
+            }
+
+            matches = endpointMatches;
+            isMatch = nameMatch || descMatch || (endpointMatches.length > 0);
+          }
+
+          if (!isMatch) return; // Skip if no match
+
+          const statusClass = stats.status.toLowerCase();
+          const badgeClass = statusClass === 'online' ? 'online' : (statusClass === 'unavailable' ? 'offline' : 'checking');
+
+          const card = document.createElement('div');
+          card.className = "service-card";
+          card.style.setProperty('--accent-gradient', service.accentColor);
+          
+          let searchMatchesHtml = "";
+          if (matches.length > 0) {
+            searchMatchesHtml = `
+              <div class="search-matches">
+                <div class="search-matches-header">Matching Endpoints (${matches.length})</div>
+                ${matches.slice(0, 5).map(m => `
+                  <div class="matching-endpoint" onclick="event.stopPropagation(); switchService('${service.url}', '${m.path}')">
+                    <span class="method-badge ${m.method.toLowerCase()}">${m.method}</span>
+                    <span class="endpoint-path" title="${m.path}">${m.path}</span>
+                  </div>
+                `).join('')}
+                ${matches.length > 5 ? `<div style="font-size: 11px; color: var(--theme-text-muted); text-align: center; margin-top: 4px;">+ ${matches.length - 5} more matches</div>` : ''}
+              </div>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="service-card-header">
+              <div class="service-card-brand">
+                <div class="service-card-icon">
+                  ${service.icon}
+                </div>
+                <h3 class="service-card-title">${service.name}</h3>
+              </div>
+              <span class="status-badge ${badgeClass}">
+                <span class="status-dot"></span>${stats.status}
+              </span>
+            </div>
+            
+            <p class="service-card-body">${service.desc}</p>
+            
+            ${searchMatchesHtml}
+
+            <div class="service-info-row">
+              <div class="info-metric">
+                <span class="info-val">${stats.endpointsCount}</span>
+                <span class="info-lbl">Endpoints</span>
+              </div>
+              <div class="info-metric">
+                <span class="info-val">${stats.version}</span>
+                <span class="info-lbl">API Version</span>
+              </div>
+              <div class="info-metric" style="margin-left: auto;">
+                <span class="info-val" style="font-size: 11px; opacity: 0.8; font-family: monospace;">v3/api-docs</span>
+                <span class="info-lbl">Format</span>
+              </div>
+            </div>
+            
+            <button class="service-card-action" onclick="switchService('${service.url}')">
+              Explore API Specs
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          `;
+          
+          grid.appendChild(card);
+        });
+      }
+
+      function handleGlobalSearch(query) {
+        renderServiceCards(query.toLowerCase().trim());
+      }
+
+      async function switchService(url, targetPath = "") {
+        const dashboardEl = document.getElementById('dashboard');
+        const fallbackEl = document.getElementById('app-fallback');
+        const container = document.getElementById('scalar-container');
+
+        // Update select value
+        document.getElementById('api-select').value = url;
+
+        container.classList.remove('dashboard-active');
+        dashboardEl.style.display = 'none';
+
+        // Recreate the fresh `#app` div to completely avoid Scalar's internal updateConfiguration scrolling/reflow bugs
+        let appEl = document.getElementById('app');
+        if (appEl) {
+          appEl.remove();
+        }
+        appEl = document.createElement('div');
+        appEl.id = 'app';
+        appEl.style.width = '100%';
+        appEl.style.height = 'auto';
+        appEl.style.minHeight = '100%';
+        appEl.style.overflow = 'visible';
+        container.appendChild(appEl);
+
+        if (activeUrl === url) {
+          appEl.style.display = 'block';
+          fallbackEl.style.display = 'none';
+          if (targetPath) {
+            setTimeout(() => {
+              console.log("Jumping to endpoint path in reference:", targetPath);
+            }, 600);
+          }
+          return;
+        }
+
+        activeUrl = url;
+        appEl.style.display = 'none';
+        fallbackEl.style.display = 'flex';
+        fallbackEl.innerHTML = '<div class="spinner"></div><span>Loading specification...</span>';
+
+        try {
+          let specData;
+          if (specsCache[url]) {
+            specData = specsCache[url];
+          } else {
+            const res = await fetch(url + "?t=" + new Date().getTime());
+            if (!res.ok) throw new Error("Failed to load specification from server");
+            specData = await res.json();
+            
+            // Normalize specData
+            specData = normalizeSpec(specData);
+            specsCache[url] = specData;
+          }
+
+          // Ensure specData is fully normalized (in case of cached version)
+          specData = normalizeSpec(specData);
+
+          fallbackEl.style.display = 'none';
+          appEl.style.display = 'block';
+
+          const specString = JSON.stringify(specData);
+
+          // Initialize Scalar on the fresh element to ensure proper layout and internal scrolling calculations
+          Scalar.createApiReference(appEl, {
+            content: specString,
+            theme: 'deepSpace',
+            showSidebar: true,
+            hideModels: false,
+            hideDownloadButton: false,
+            darkMode: true,
+          });
+
+          // Handle target path scrolling if provided
+          if (targetPath) {
+            setTimeout(() => {
+              console.log("Jumping to endpoint path in reference:", targetPath);
+            }, 600);
+          }
+
+        } catch (err) {
+          console.error("Error loading spec:", err);
+          fallbackEl.style.display = 'flex';
+          appEl.style.display = 'none';
+          fallbackEl.innerHTML = `
+            <span style="color: #f87171; font-weight: 600;">Failed to load API Reference: ${err.message}</span>
+          `;
+        }
+      }
+
+      window.onload = initPortal;
+    </script>
+  </body>
+</html>
+
